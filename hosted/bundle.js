@@ -5,8 +5,13 @@ var handleDomo = function handleDomo(e) {
 
     $("#domoMessage").animate({ width: 'hide' }, 350);
 
-    if ($("#domoName").val() == '' || $("#domoAge").val() == '') {
+    if ($("#domoName").val() == '' || $("#domoAge").val() == '' || $("#domoDiscord").val() == '') {
         handleError("RAWR! All fields are required!");
+        return false;
+    }
+
+    if ($("#domoDiscord").val()[$("#domoDiscord").val().length - 5] !== '#') {
+        handleError("RAWR! Not a properly formatted Discord tag!");
         return false;
     }
 
@@ -39,6 +44,12 @@ var DomoForm = function DomoForm(props) {
             "Age: "
         ),
         React.createElement("input", { id: "domoAge", type: "text", name: "age", placeholder: "Domo Age" }),
+        React.createElement(
+            "label",
+            { htmlFor: "discord" },
+            "Discord Tag: "
+        ),
+        React.createElement("input", { id: "domoDiscord", type: "text", name: "discord", placeholder: "CoolDomo#1234" }),
         React.createElement("input", { type: "hidden", name: "_csrf", value: props.csrf }),
         React.createElement("input", { className: "formSubmit", type: "submit", value: "Make Domo" })
     );
@@ -74,6 +85,13 @@ var DomoList = function DomoList(props) {
                 { className: "domoAge" },
                 " Age: ",
                 domo.age,
+                " "
+            ),
+            React.createElement(
+                "h3",
+                { className: "domoDiscord" },
+                " Discord Tag: ",
+                domo.discord,
                 " "
             )
         );

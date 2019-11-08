@@ -13,13 +13,19 @@ const makerPage = (req, res) => {
 };
 
 const makeDomo = (req, res) => {
-  if (!req.body.name || !req.body.age) {
-    return res.status(400).json({ error: 'RAWR! Both name and age are required.' });
+  if (!req.body.name || !req.body.age || !req.body.discord) {
+    return res.status(400).json({ error: 'RAWR! All fields are required.' });
+  }
+
+  if (req.body.discord[req.body.discord.length - 5] !== '#') {
+    console.log(req.body.discord[req.body.discord.length - 5]);
+    return res.status(400).json({ error: 'RAWR! Not a properly formatted Discord tag!' });
   }
 
   const domoData = {
     name: req.body.name,
     age: req.body.age,
+    discord: req.body.discord,
     owner: req.session.account._id,
   };
 
